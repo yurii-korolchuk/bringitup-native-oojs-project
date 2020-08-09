@@ -931,10 +931,14 @@ module.exports = g;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_Slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/Slider */ "./src/js/modules/Slider.js");
+/* harmony import */ var _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/VideoPlayer */ "./src/js/modules/VideoPlayer.js");
+
 
 window.addEventListener('DOMContentLoaded', function () {
   var slider = new _modules_Slider__WEBPACK_IMPORTED_MODULE_0__["default"]('.page', '.next', '', '.home');
   slider.render();
+  var player = new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.overlay .close');
+  player.init();
 });
 
 /***/ }),
@@ -986,6 +990,12 @@ function () {
         if (_this.slideIndex == i) {
           item.classList.add('fadeInUp');
           item.style.display = 'block';
+
+          if (item.classList.contains('modules')) {
+            var showHanson = setTimeout(function () {
+              if (item.style.display === 'block') item.querySelector('.hanson').style.display = 'block';
+            }, 3000);
+          }
         } else {
           item.classList.remove('fadeInDown');
           item.style.display = 'none';
@@ -1028,6 +1038,94 @@ function () {
   }]);
 
   return Slider;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/modules/VideoPlayer.js":
+/*!***************************************!*\
+  !*** ./src/js/modules/VideoPlayer.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoPlayer; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var VideoPlayer =
+/*#__PURE__*/
+function () {
+  function VideoPlayer(containerSelector, triggerSelector, closeSelector) {
+    var _this = this;
+
+    _classCallCheck(this, VideoPlayer);
+
+    this.container = document.querySelector(containerSelector);
+    this.trigger = document.querySelector(triggerSelector);
+    this.close = this.container.querySelector(closeSelector);
+    this.container.classList.add('animated', 'fadeIn');
+    this.trigger.addEventListener('click', function () {
+      _this.container.style.display = 'flex';
+    });
+  }
+
+  _createClass(VideoPlayer, [{
+    key: "bindOpenAndCloseTriggers",
+    value: function bindOpenAndCloseTriggers() {
+      var _this2 = this;
+
+      this.trigger.addEventListener('click', function () {
+        _this2.openOverlayWithVideo(_this2.trigger.getAttribute('data-url'));
+      });
+      this.close.addEventListener('click', function () {
+        _this2.closeOverlayWithVideo();
+      });
+      this.container.addEventListener('click', function (e) {
+        if (e.target && e.target === _this2.container) {
+          _this2.closeOverlayWithVideo();
+        }
+      });
+    }
+  }, {
+    key: "openOverlayWithVideo",
+    value: function openOverlayWithVideo(url) {
+      if (document.querySelector('iframe#frame')) {
+        this.container.style.display = 'flex';
+      } else {
+        this.container.style.display = 'flex';
+        this.player = new YT.Player('frame', {
+          height: '100%',
+          width: '100%',
+          videoId: "".concat(url)
+        });
+      }
+    }
+  }, {
+    key: "closeOverlayWithVideo",
+    value: function closeOverlayWithVideo() {
+      this.container.style.display = '';
+      this.player.stopVideo();
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      this.bindOpenAndCloseTriggers();
+    }
+  }]);
+
+  return VideoPlayer;
 }();
 
 

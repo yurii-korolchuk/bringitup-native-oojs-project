@@ -19,6 +19,11 @@ export default class Slider {
             if(this.slideIndex == i) {
                 item.classList.add('fadeInUp');
                 item.style.display = 'block';
+                if(item.classList.contains('modules')) {
+                    const showHanson = setTimeout(() => {
+                        if(item.style.display === 'block') item.querySelector('.hanson').style.display = 'block';
+                    }, 3000)
+                }
             } else {
                 item.classList.remove('fadeInDown');
                 item.style.display = 'none';
