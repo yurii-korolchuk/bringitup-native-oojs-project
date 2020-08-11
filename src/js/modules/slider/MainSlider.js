@@ -1,9 +1,8 @@
 import Slider from './Slider';
 
 export default class MainSlider extends Slider {
-constructor({container, prevButton, nextButton, fadeInClass = 'fadeIn', resetButton = ""}) {
-    super({container, prevButton, nextButton, fadeInClass});
-
+constructor({container, prevButton, nextButton, fadeIn = {}, resetButton = null} = {}) {
+    super({container, prevButton, nextButton, fadeIn});
         try {
             this.resetButton = document.querySelectorAll(resetButton);
         } catch(e) {}
@@ -15,20 +14,20 @@ constructor({container, prevButton, nextButton, fadeInClass = 'fadeIn', resetBut
 
         this.slides.forEach((item, i) => {
             if(this.slideIndex == i) {
-                item.classList.add(this.fadeInClass);
+                if(this.fadeIn) item.classList.add(this.fadeIn.fadeInNext);
                 item.style.display = 'block';
 
                 if(item.classList.contains('modules')) {
                     setTimeout(() => {
                         if(item.style.display === 'block') {
                             try {
-                                document.querySelector('.hanson').style.display = 'block';
+                                item.querySelector('.hanson').style.display = 'block';
                             } catch(e) {}
                         }
                     }, 3000)        
                 }
             } else {
-                item.classList.remove(this.fadeInClass);
+                if(this.fadeIn) item.classList.remove(this.fadeIn.fadeInNext);
                 item.style.display = 'none';
             }
         })
@@ -36,24 +35,9 @@ constructor({container, prevButton, nextButton, fadeInClass = 'fadeIn', resetBut
 
     render() {
         try {
-            this.nextButton.forEach(item => {
-                item.addEventListener('click', () => {
-                    this.showNextSlide();
-                })
-            })
-
-            this.resetButton.forEach(item => {
-                item.addEventListener('click', () => {
-                    this.showSlide(0);
-                })
-            })
-
-            this.prevButton.forEach(item => {
-                item.addEventListener('click', () => {
-                    this.showPrevSlide();
-                })
-            })
-            
+            this.bindAction(this.nextButton, 'click', () => this.showNextSlide());
+            this.bindAction(this.resetButton, 'click', () => this.showSlide(0));
+            this.bindAction(this.prevButton, 'click', () => this.showPrevSlide());
         } catch(e) {}
     }
 }

@@ -1,8 +1,8 @@
 export default class Slider {
-    constructor({container = ' ', prevButton = ' ', nextButton = ' ', fadeInClass = 'fadeIn'} = {}) {
+    constructor({container = null, prevButton = null, nextButton = null, fadeIn = {} } = {}) {
         this.container = document.querySelector(container);
         this.slides = this.container.children;
-        this.fadeInClass = fadeInClass;
+        if(Object.keys(fadeIn).length) this.fadeIn = fadeIn;
         try {
             this.nextButton = document.querySelectorAll(nextButton);            
             this.prevButton = document.querySelectorAll(prevButton);
@@ -19,10 +19,10 @@ export default class Slider {
 
         this.slides.forEach((item, i) => {
             if(this.slideIndex == i) {
-                item.classList.add(this.fadeInClass);
+                if(this.fadeIn) item.classList.add(this.fadeIn.fadeInNext);
                 item.style.display = 'block';
             } else {
-                item.classList.remove(this.fadeInClass);
+                if(this.fadeIn) item.classList.remove(this.fadeIn.fadeInNext);
                 item.style.display = 'none';
             }
         })
@@ -36,18 +36,20 @@ export default class Slider {
         this.showSlide(this.slideIndex += -1);
     }
 
+    bindAction(item, action, callback) {
+        if(HTMLCollection.prototype.isPrototypeOf(item) || NodeList.prototype.isPrototypeOf(item) || Array.isArray(item)) {
+            item.forEach(item => {
+                item.addEventListener(action, callback);
+            })
+        } else {
+            item.addEventListener(action, callback);
+        }
+    }
+
     render() {
         try {
-            this.nextButton.forEach(item => {
-                item.addEventListener('click', () => {
-                    this.showNextSlide();
-                })
-            })
-            this.prevButton.forEach(item => {
-                item.addEventListener('click', () => {
-                    this.showPrevSlide();
-                })
-            })
+            this.bindAction(this.nextButton, 'click', () => this.showNextSlide);
+            this.bindAction(this.prevButton, 'click', () => this.showPrevSlide);
         } catch(e) {}
     }
 }
