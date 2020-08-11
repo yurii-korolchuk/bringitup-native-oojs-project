@@ -2811,18 +2811,18 @@ window.addEventListener('DOMContentLoaded', function () {
       fadeInNext: 'fadeInRight',
       fadeInPrev: 'fadeInLeft'
     }
-  }).render(); // const modulesSlider = new MiniSlider({
-  //     container: '.modules__content-slider',
-  //     nextButton: '.slick-next',
-  //     prevButton: '.slick-prev',
-  //     activeClass: 'card-active',
-  //     elementsToIgnore: 'button',
-  //     fadeIn: {
-  //         fadeInNext: 'fadeInRight',
-  //         fadeInPrev: 'fadeInLeft'
-  //     }
-  // }).render();
-
+  }).render();
+  var modulesSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
+    container: '.modules__content-slider',
+    nextButton: '.slick-next',
+    prevButton: '.slick-prev',
+    activeClass: 'card-active',
+    elementsToIgnore: 'button',
+    fadeIn: {
+      fadeInNext: 'fadeInRight',
+      fadeInPrev: 'fadeInLeft'
+    }
+  }).render();
   var feedSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
     container: '.feed__slider',
     nextButton: '.slick-next',
@@ -3165,65 +3165,69 @@ function (_Slider) {
   _createClass(MiniSlider, [{
     key: "showNextSlide",
     value: function showNextSlide() {
-      var _this2 = this;
-
-      if (this.elementsToIgnore) this.elementsToIgnore.forEach(function (item) {
-        if (_this2.slides[1] === item) {
-          _this2.container.appendChild(item);
+      var elementsToIgnore = this.elementsToIgnore,
+          slides = this.slides,
+          container = this.container,
+          fadeIn = this.fadeIn,
+          activeClass = this.activeClass;
+      if (elementsToIgnore) elementsToIgnore.forEach(function (item) {
+        if (slides[1] === item) {
+          container.appendChild(item);
         }
       });
-      console.log(this.slides);
-      this.container.appendChild(this.slides[0]);
+      container.appendChild(slides[0]);
 
-      if (this.fadeIn) {
-        this.slides.forEach(function (item) {
-          item.classList.remove(_this2.activeClass, _this2.fadeIn.fadeInNext, _this2.fadeIn.fadeInPrev);
+      if (fadeIn) {
+        slides.forEach(function (item) {
+          item.classList.remove(activeClass, fadeIn.fadeInNext, fadeIn.fadeInPrev);
         });
-        this.slides[0].classList.add(this.activeClass, this.fadeIn.fadeInNext);
+        slides[0].classList.add(activeClass, fadeIn.fadeInNext);
       } else {
-        this.slides.forEach(function (item) {
-          item.classList.remove(_this2.activeClass);
+        slides.forEach(function (item) {
+          item.classList.remove(activeClass);
         });
-        this.slides[0].classList.add(this.activeClass);
+        slides[0].classList.add(activeClass);
       }
     }
   }, {
     key: "showPrevSlide",
     value: function showPrevSlide() {
-      var _this3 = this;
-
-      if (this.elementsToIgnore) for (var i = this.elementsToIgnore.length - 1; i >= 0; i--) {
-        if (this.slides[this.slides.length - 1] === this.elementsToIgnore[i]) {
-          this.container.insertBefore(this.elementsToIgnore[i], this.slides[0]);
+      var elementsToIgnore = this.elementsToIgnore,
+          slides = this.slides,
+          container = this.container,
+          fadeIn = this.fadeIn,
+          activeClass = this.activeClass;
+      if (elementsToIgnore) for (var i = elementsToIgnore.length - 1; i >= 0; i--) {
+        if (slides[slides.length - 1] === elementsToIgnore[i]) {
+          container.insertBefore(elementsToIgnore[i], slides[0]);
         }
       }
-      console.log(this.slides);
 
-      if (this.fadeIn) {
-        this.container.insertBefore(this.slides[this.slides.length - 1], this.slides[0]);
-        this.slides.forEach(function (item) {
-          item.classList.remove(_this3.activeClass, _this3.fadeIn.fadeInPrev, _this3.fadeIn.fadeInNext);
+      if (fadeIn) {
+        container.insertBefore(slides[slides.length - 1], slides[0]);
+        slides.forEach(function (item) {
+          item.classList.remove(activeClass, fadeIn.fadeInPrev, fadeIn.fadeInNext);
         });
-        this.slides[0].classList.add(this.activeClass, this.fadeIn.fadeInPrev);
+        slides[0].classList.add(activeClass, fadeIn.fadeInPrev);
       } else {
-        this.container.insertBefore(this.slides[this.slides.length - 1], this.slides[0]);
-        this.slides.forEach(function (item) {
-          item.classList.remove(_this3.activeClass);
+        container.insertBefore(slides[slides.length - 1], slides[0]);
+        slides.forEach(function (item) {
+          item.classList.remove(activeClass);
         });
-        this.slides[0].classList.add(this.activeClass);
+        slides[0].classList.add(activeClass);
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this2 = this;
 
       this.container.style.cssText = "\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            flex-wrap: wrap;\n            overflow: hidden;\n        ";
       this.bindAction(this.nextButton, 'click', function () {
-        return _this4.showNextSlide();
+        return _this2.showNextSlide();
       });
       this.bindAction(this.prevButton, 'click', function () {
-        return _this4.showPrevSlide();
+        return _this2.showPrevSlide();
       });
       console.log(this.slides);
     }

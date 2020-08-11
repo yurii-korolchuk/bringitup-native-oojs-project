@@ -25,18 +25,18 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }).render();
 
-    // const modulesSlider = new MiniSlider({
-    //     container: '.modules__content-slider',
-    //     nextButton: '.slick-next',
-    //     prevButton: '.slick-prev',
-    //     activeClass: 'card-active',
-    //     elementsToIgnore: 'button',
-    //     fadeIn: {
-    //         fadeInNext: 'fadeInRight',
-    //         fadeInPrev: 'fadeInLeft'
-    //     }
+    const modulesSlider = new MiniSlider({
+        container: '.modules__content-slider',
+        nextButton: '.slick-next',
+        prevButton: '.slick-prev',
+        activeClass: 'card-active',
+        elementsToIgnore: 'button',
+        fadeIn: {
+            fadeInNext: 'fadeInRight',
+            fadeInPrev: 'fadeInLeft'
+        }
         
-    // }).render();
+    }).render();
 
     const feedSlider = new MiniSlider({
         container: '.feed__slider',

@@ -8,47 +8,49 @@ export default class MiniSlider extends Slider {
     }   
 
     showNextSlide() {
-        if(this.elementsToIgnore) this.elementsToIgnore.forEach(item => {
-            if(this.slides[1] === item) {
-                this.container.appendChild(item);
+        const {elementsToIgnore, slides, container, fadeIn, activeClass} = this;
+
+        if(elementsToIgnore) elementsToIgnore.forEach(item => {
+            if(slides[1] === item) {
+                container.appendChild(item);
             }
         })
-        console.log(this.slides)
 
-        this.container.appendChild(this.slides[0]);
-        if(this.fadeIn) {
-            this.slides.forEach(item => {
-                item.classList.remove(this.activeClass, this.fadeIn.fadeInNext, this.fadeIn.fadeInPrev)
+        container.appendChild(slides[0]);
+        if(fadeIn) {
+            slides.forEach(item => {
+                item.classList.remove(activeClass, fadeIn.fadeInNext, fadeIn.fadeInPrev)
             })
-            this.slides[0].classList.add(this.activeClass, this.fadeIn.fadeInNext)
+            slides[0].classList.add(activeClass, fadeIn.fadeInNext)
         } else {
-            this.slides.forEach(item => {
-                item.classList.remove(this.activeClass)
+            slides.forEach(item => {
+                item.classList.remove(activeClass)
             })
-            this.slides[0].classList.add(this.activeClass)
+            slides[0].classList.add(activeClass)
         }
     }
 
     showPrevSlide() {
-        if(this.elementsToIgnore) for(let i = this.elementsToIgnore.length - 1; i >= 0; i--) {
-            if(this.slides[this.slides.length - 1] === this.elementsToIgnore[i]) {
-                this.container.insertBefore(this.elementsToIgnore[i], this.slides[0]);
+        const {elementsToIgnore, slides, container, fadeIn, activeClass} = this;
+
+        if(elementsToIgnore) for(let i = elementsToIgnore.length - 1; i >= 0; i--) {
+            if(slides[slides.length - 1] === elementsToIgnore[i]) {
+                container.insertBefore(elementsToIgnore[i], slides[0]);
             }
         }
         
-        console.log(this.slides)
-        if(this.fadeIn) {
-            this.container.insertBefore(this.slides[this.slides.length - 1], this.slides[0]);
-            this.slides.forEach(item => {
-                item.classList.remove(this.activeClass, this.fadeIn.fadeInPrev, this.fadeIn.fadeInNext)
+        if(fadeIn) {
+            container.insertBefore(slides[slides.length - 1], slides[0]);
+            slides.forEach(item => {
+                item.classList.remove(activeClass, fadeIn.fadeInPrev, fadeIn.fadeInNext)
             })
-            this.slides[0].classList.add(this.activeClass, this.fadeIn.fadeInPrev)
+            slides[0].classList.add(activeClass, fadeIn.fadeInPrev)
         } else {
-            this.container.insertBefore(this.slides[this.slides.length - 1], this.slides[0]);
-            this.slides.forEach(item => {
-                item.classList.remove(this.activeClass)
+            container.insertBefore(slides[slides.length - 1], slides[0]);
+            slides.forEach(item => {
+                item.classList.remove(activeClass)
             })
-            this.slides[0].classList.add(this.activeClass)
+            slides[0].classList.add(activeClass)
         }
     }
 
