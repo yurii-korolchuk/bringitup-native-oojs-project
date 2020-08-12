@@ -3330,12 +3330,20 @@ function () {
     }
   }, {
     key: "showNextSlide",
-    value: function showNextSlide() {
+    value: function showNextSlide(click) {
+      if (click && this.autoplay) {
+        clearInterval(this.auto);
+      }
+
       this.showSlide(this.slideIndex += 1);
     }
   }, {
     key: "showPrevSlide",
-    value: function showPrevSlide() {
+    value: function showPrevSlide(click) {
+      if (click && this.autoplay) {
+        clearInterval(this.auto);
+      }
+
       this.showSlide(this.slideIndex += -1);
     }
   }, {
@@ -3356,15 +3364,15 @@ function () {
 
       try {
         this.bindAction(this.nextButton, 'click', function () {
-          return _this2.showNextSlide;
+          return _this2.showNextSlide(true);
         });
         this.bindAction(this.prevButton, 'click', function () {
-          return _this2.showPrevSlide;
+          return _this2.showPrevSlide(true);
         });
       } catch (e) {}
 
       if (this.autoplay) {
-        setInterval(function () {
+        this.auto = setInterval(function () {
           _this2.showNextSlide();
         }, 3000);
       }

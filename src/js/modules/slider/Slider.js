@@ -29,11 +29,17 @@ export default class Slider {
         })
     }
 
-    showNextSlide() {
+    showNextSlide(click) {
+        if(click && this.autoplay) {
+            clearInterval(this.auto)
+        }
         this.showSlide(this.slideIndex += 1);
     }
 
-    showPrevSlide() {
+    showPrevSlide(click) {
+        if(click && this.autoplay) {
+            clearInterval(this.auto)
+        }
         this.showSlide(this.slideIndex += -1);
     }
 
@@ -49,11 +55,11 @@ export default class Slider {
 
     render() {
         try {
-            this.bindAction(this.nextButton, 'click', () => this.showNextSlide);
-            this.bindAction(this.prevButton, 'click', () => this.showPrevSlide);
+            this.bindAction(this.nextButton, 'click', () => this.showNextSlide(true));
+            this.bindAction(this.prevButton, 'click', () => this.showPrevSlide(true));
         } catch(e) {}
         if(this.autoplay) {
-            setInterval(() => {
+            this.auto = setInterval(() => {
                 this.showNextSlide();
             },3000);
         }
