@@ -39,11 +39,11 @@ export default class MiniSlider extends Slider {
         }
         const {elementsToIgnore, slides, container, fadeIn, activeClass} = this;
 
-        if(elementsToIgnore) for(let i = elementsToIgnore.length - 1; i >= 0; i--) {
-            if(slides[slides.length - 1] === elementsToIgnore[i]) {
-                container.insertBefore(elementsToIgnore[i], slides[0]);
+        if(elementsToIgnore) Array.from(elementsToIgnore).reverse().forEach(item => {
+            if(slides[slides.length - 1] === item) {
+                container.insertBefore(item, slides[0]);
             }
-        }
+        })
         
         if(fadeIn) {
             container.insertBefore(slides[slides.length - 1], slides[0]);

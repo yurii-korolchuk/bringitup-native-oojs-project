@@ -28,8 +28,6 @@ export default class VideoPlayer {
     }
 
     openOverlayWithVideo(url) {
-        
-
         if(document.querySelector('iframe#frame')) {
             this.container.style.display = 'flex';
         } else {

@@ -1,6 +1,7 @@
 import MainSlider from './modules/slider/MainSlider';
 import VideoPlayer from './modules/VideoPlayer';
 import MiniSlider from './modules/slider/MiniSlider';
+import LoadItems from './modules/LoadItems';
 
 window.addEventListener('DOMContentLoaded', () => {
     const slider = new MainSlider({
@@ -46,4 +47,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }).render();
 
     const player = new VideoPlayer('.overlay', '.play', '.overlay .close').init();
+
+    const loadBefore = new LoadItems('.officerold', '.officer__card-item', '.officer__card-show').init();
+    const loadNew = new LoadItems('.officernew', '.officer__card-item', '.officer__card-show').init();
 });
