@@ -2858,6 +2858,62 @@ defineIterator(String, 'String', function (iterated) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.string.match.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.string.match.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __webpack_require__(/*! ../internals/fix-regexp-well-known-symbol-logic */ "./node_modules/core-js/internals/fix-regexp-well-known-symbol-logic.js");
+var anObject = __webpack_require__(/*! ../internals/an-object */ "./node_modules/core-js/internals/an-object.js");
+var toLength = __webpack_require__(/*! ../internals/to-length */ "./node_modules/core-js/internals/to-length.js");
+var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ "./node_modules/core-js/internals/require-object-coercible.js");
+var advanceStringIndex = __webpack_require__(/*! ../internals/advance-string-index */ "./node_modules/core-js/internals/advance-string-index.js");
+var regExpExec = __webpack_require__(/*! ../internals/regexp-exec-abstract */ "./node_modules/core-js/internals/regexp-exec-abstract.js");
+
+// @@match logic
+fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
+  return [
+    // `String.prototype.match` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.match
+    function match(regexp) {
+      var O = requireObjectCoercible(this);
+      var matcher = regexp == undefined ? undefined : regexp[MATCH];
+      return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
+    },
+    // `RegExp.prototype[@@match]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@match
+    function (regexp) {
+      var res = maybeCallNative(nativeMatch, regexp, this);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      if (!rx.global) return regExpExec(rx, S);
+
+      var fullUnicode = rx.unicode;
+      rx.lastIndex = 0;
+      var A = [];
+      var n = 0;
+      var result;
+      while ((result = regExpExec(rx, S)) !== null) {
+        var matchStr = String(result[0]);
+        A[n] = matchStr;
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+        n++;
+      }
+      return n === 0 ? null : A;
+    }
+  ];
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.string.replace.js":
 /*!***********************************************************!*\
   !*** ./node_modules/core-js/modules/es.string.replace.js ***!
@@ -3510,6 +3566,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/slider/MiniSlider */ "./src/js/modules/slider/MiniSlider.js");
 /* harmony import */ var _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/LoadItems */ "./src/js/modules/LoadItems.js");
 /* harmony import */ var _modules_Mask__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Mask */ "./src/js/modules/Mask.js");
+/* harmony import */ var _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/TextInput */ "./src/js/modules/TextInput.js");
+
 
 
 
@@ -3557,7 +3615,8 @@ window.addEventListener('DOMContentLoaded', function () {
   var player = new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.overlay .close').init();
   var loadBefore = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officerold', '.officer__card-item', '.officer__card-show').init();
   var loadNew = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officernew', '.officer__card-item', '.officer__card-show').init();
-  var mask = new _modules_Mask__WEBPACK_IMPORTED_MODULE_4__["default"]('input#phone', '+1 (___) __-___').init();
+  var mask = new _modules_Mask__WEBPACK_IMPORTED_MODULE_4__["default"]('input[name=phone]', '+1 (___) __-___').init();
+  var textInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[type=email]').init();
 });
 
 /***/ }),
@@ -3727,6 +3786,58 @@ function () {
   }]);
 
   return Mask;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/modules/TextInput.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/TextInput.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TextInput; });
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.string.match */ "./node_modules/core-js/modules/es.string.match.js");
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var TextInput =
+/*#__PURE__*/
+function () {
+  function TextInput(selector) {
+    _classCallCheck(this, TextInput);
+
+    this.container = document.querySelectorAll(selector);
+  }
+
+  _createClass(TextInput, [{
+    key: "init",
+    value: function init() {
+      this.container.forEach(function (item) {
+        item.addEventListener('keypress', function (e) {
+          if (e.key.match(/[^a-z]/ig)) {
+            e.preventDefault();
+          }
+        });
+      });
+    }
+  }]);
+
+  return TextInput;
 }();
 
 
