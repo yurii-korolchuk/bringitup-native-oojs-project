@@ -2800,8 +2800,7 @@ window.addEventListener('DOMContentLoaded', function () {
     fadeIn: {
       fadeInNext: 'fadeInUp'
     }
-  });
-  slider.render();
+  }).render();
   var showupSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
     container: '.showup__content-slider',
     nextButton: '.showup__next',
@@ -2821,7 +2820,8 @@ window.addEventListener('DOMContentLoaded', function () {
     fadeIn: {
       fadeInNext: 'fadeInRight',
       fadeInPrev: 'fadeInLeft'
-    }
+    },
+    autoplay: true
   }).render();
   var feedSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
     container: '.feed__slider',
@@ -2830,8 +2830,7 @@ window.addEventListener('DOMContentLoaded', function () {
     activeClass: 'feed__item-active',
     elementsToIgnore: 'button'
   }).render();
-  var player = new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.overlay .close');
-  player.init();
+  var player = new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.overlay .close').init();
 });
 
 /***/ }),
@@ -3146,7 +3145,9 @@ function (_Slider) {
         _ref$elementsToIgnore = _ref.elementsToIgnore,
         elementsToIgnore = _ref$elementsToIgnore === void 0 ? '' : _ref$elementsToIgnore,
         _ref$fadeIn = _ref.fadeIn,
-        fadeIn = _ref$fadeIn === void 0 ? {} : _ref$fadeIn;
+        fadeIn = _ref$fadeIn === void 0 ? {} : _ref$fadeIn,
+        _ref$autoplay = _ref.autoplay,
+        autoplay = _ref$autoplay === void 0 ? false : _ref$autoplay;
 
     _classCallCheck(this, MiniSlider);
 
@@ -3155,7 +3156,8 @@ function (_Slider) {
       prevButton: prevButton,
       nextButton: nextButton,
       elementsToIgnore: elementsToIgnore,
-      fadeIn: fadeIn
+      fadeIn: fadeIn,
+      autoplay: autoplay
     }));
     _this.activeClass = activeClass;
     if (elementsToIgnore.length) _this.elementsToIgnore = _this.container.querySelectorAll(elementsToIgnore);
@@ -3164,7 +3166,11 @@ function (_Slider) {
 
   _createClass(MiniSlider, [{
     key: "showNextSlide",
-    value: function showNextSlide() {
+    value: function showNextSlide(click) {
+      if (click && this.autoplay) {
+        clearInterval(this.auto);
+      }
+
       var elementsToIgnore = this.elementsToIgnore,
           slides = this.slides,
           container = this.container,
@@ -3191,7 +3197,11 @@ function (_Slider) {
     }
   }, {
     key: "showPrevSlide",
-    value: function showPrevSlide() {
+    value: function showPrevSlide(click) {
+      if (click && this.autoplay) {
+        clearInterval(this.auto);
+      }
+
       var elementsToIgnore = this.elementsToIgnore,
           slides = this.slides,
           container = this.container,
@@ -3224,12 +3234,17 @@ function (_Slider) {
 
       this.container.style.cssText = "\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            flex-wrap: wrap;\n            overflow: hidden;\n        ";
       this.bindAction(this.nextButton, 'click', function () {
-        return _this2.showNextSlide();
+        return _this2.showNextSlide(true);
       });
       this.bindAction(this.prevButton, 'click', function () {
-        return _this2.showPrevSlide();
+        return _this2.showPrevSlide(true);
       });
-      console.log(this.slides);
+
+      if (this.autoplay) {
+        this.auto = setInterval(function () {
+          _this2.showNextSlide();
+        }, 6500);
+      }
     }
   }]);
 
@@ -3275,12 +3290,15 @@ function () {
         _ref$nextButton = _ref.nextButton,
         nextButton = _ref$nextButton === void 0 ? null : _ref$nextButton,
         _ref$fadeIn = _ref.fadeIn,
-        fadeIn = _ref$fadeIn === void 0 ? {} : _ref$fadeIn;
+        fadeIn = _ref$fadeIn === void 0 ? {} : _ref$fadeIn,
+        _ref$autoplay = _ref.autoplay,
+        autoplay = _ref$autoplay === void 0 ? false : _ref$autoplay;
 
     _classCallCheck(this, Slider);
 
     this.container = document.querySelector(container);
     this.slides = this.container.children;
+    this.autoplay = autoplay;
     if (Object.keys(fadeIn).length) this.fadeIn = fadeIn;
 
     try {
@@ -3344,6 +3362,12 @@ function () {
           return _this2.showPrevSlide;
         });
       } catch (e) {}
+
+      if (this.autoplay) {
+        setInterval(function () {
+          _this2.showNextSlide();
+        }, 3000);
+      }
     }
   }]);
 

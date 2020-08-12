@@ -1,7 +1,8 @@
 export default class Slider {
-    constructor({container = null, prevButton = null, nextButton = null, fadeIn = {} } = {}) {
+    constructor({container = null, prevButton = null, nextButton = null, fadeIn = {}, autoplay = false } = {}) {
         this.container = document.querySelector(container);
         this.slides = this.container.children;
+        this.autoplay = autoplay;
         if(Object.keys(fadeIn).length) this.fadeIn = fadeIn;
         try {
             this.nextButton = document.querySelectorAll(nextButton);            
@@ -51,5 +52,10 @@ export default class Slider {
             this.bindAction(this.nextButton, 'click', () => this.showNextSlide);
             this.bindAction(this.prevButton, 'click', () => this.showPrevSlide);
         } catch(e) {}
+        if(this.autoplay) {
+            setInterval(() => {
+                this.showNextSlide();
+            },3000);
+        }
     }
 }

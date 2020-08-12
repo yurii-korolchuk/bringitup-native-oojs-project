@@ -11,8 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
         fadeIn: {
             fadeInNext: 'fadeInUp'
         }
-    });
-    slider.render();
+    }).render();
 
     const showupSlider = new MiniSlider({
         container: '.showup__content-slider',
@@ -34,8 +33,8 @@ window.addEventListener('DOMContentLoaded', () => {
         fadeIn: {
             fadeInNext: 'fadeInRight',
             fadeInPrev: 'fadeInLeft'
-        }
-        
+        },
+        autoplay: true
     }).render();
 
     const feedSlider = new MiniSlider({
@@ -46,6 +45,5 @@ window.addEventListener('DOMContentLoaded', () => {
         elementsToIgnore: 'button'
     }).render();
 
-    const player = new VideoPlayer('.overlay', '.play', '.overlay .close');
-    player.init();
+    const player = new VideoPlayer('.overlay', '.play', '.overlay .close').init();
 });

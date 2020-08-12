@@ -1,13 +1,16 @@
 import Slider from './Slider';
 
 export default class MiniSlider extends Slider {
-    constructor({container, prevButton = null, nextButton = null, activeClass = '', elementsToIgnore = '', fadeIn = {} } = {}) {
-        super({container, prevButton, nextButton, elementsToIgnore, fadeIn});
+    constructor({container, prevButton = null, nextButton = null, activeClass = '', elementsToIgnore = '', fadeIn = {}, autoplay = false } = {}) {
+        super({container, prevButton, nextButton, elementsToIgnore, fadeIn, autoplay});
         this.activeClass = activeClass;
         if(elementsToIgnore.length) this.elementsToIgnore = this.container.querySelectorAll(elementsToIgnore);
     }   
 
-    showNextSlide() {
+    showNextSlide(click) {
+        if(click && this.autoplay) {
+            clearInterval(this.auto)
+        }
         const {elementsToIgnore, slides, container, fadeIn, activeClass} = this;
 
         if(elementsToIgnore) elementsToIgnore.forEach(item => {
@@ -30,7 +33,10 @@ export default class MiniSlider extends Slider {
         }
     }
 
-    showPrevSlide() {
+    showPrevSlide(click) {
+        if(click && this.autoplay) {
+            clearInterval(this.auto)
+        }
         const {elementsToIgnore, slides, container, fadeIn, activeClass} = this;
 
         if(elementsToIgnore) for(let i = elementsToIgnore.length - 1; i >= 0; i--) {
@@ -62,8 +68,13 @@ export default class MiniSlider extends Slider {
             flex-wrap: wrap;
             overflow: hidden;
         `;
-        this.bindAction(this.nextButton, 'click', () => this.showNextSlide());
-        this.bindAction(this.prevButton, 'click', () => this.showPrevSlide());
-        console.log(this.slides)
+        this.bindAction(this.nextButton, 'click', () => this.showNextSlide(true));
+        this.bindAction(this.prevButton, 'click', () => this.showPrevSlide(true));
+
+        if(this.autoplay) {
+            this.auto = setInterval(() => {
+                this.showNextSlide();
+            }, 6500)
+        }
     }
 }
