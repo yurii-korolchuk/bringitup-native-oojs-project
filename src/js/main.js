@@ -2,6 +2,7 @@ import MainSlider from './modules/slider/MainSlider';
 import VideoPlayer from './modules/VideoPlayer';
 import MiniSlider from './modules/slider/MiniSlider';
 import LoadItems from './modules/LoadItems';
+import Mask from './modules/Mask';
 
 window.addEventListener('DOMContentLoaded', () => {
     const slider = new MainSlider({
@@ -50,4 +51,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const loadBefore = new LoadItems('.officerold', '.officer__card-item', '.officer__card-show').init();
     const loadNew = new LoadItems('.officernew', '.officer__card-item', '.officer__card-show').init();
+    const mask = new Mask('input#phone', '+1 (___) __-___').init();
 });

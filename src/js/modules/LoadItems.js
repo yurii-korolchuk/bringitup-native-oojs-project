@@ -21,7 +21,7 @@ export default class LoadItems {
         this.itemsToShow.forEach(item => {
             item.style.display = 'none';
             item.classList.add('animated', 'fadeInDown');
-        })
+        });
 
         this.bindTrigger();
     }
