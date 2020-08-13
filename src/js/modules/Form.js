@@ -1,9 +1,10 @@
 export default class Form {
-    constructor(submitSelector = null, itemsToCheck = [], path = 'assets/question.php') {
+    constructor(containerSelector = null, submitSelector = null, itemsToCheck = [], path = 'assets/question.php') {
         this.submit = document.querySelector(submitSelector);
         this.itemsToCheck = itemsToCheck;
         this.path = path;
         this.error = false;
+        this.container = document.querySelector(containerSelector);
     }
 
     bindAction() {
@@ -25,17 +26,37 @@ export default class Form {
             }
 
             if(!this.error) {
+
                 const data = new FormData(this.submit);
+
+                const statusMessage = document.createElement('div');
+                statusMessage.style.cssText = `
+                    display: flex;
+                    justify-content: flex-start;
+                    font-size: 15px;
+                    font-weight: 900;
+                    color: #fff;
+                `;
+                statusMessage.classList.add('animated', 'fadeIn');
+                statusMessage.textContent = 'Please wait while we are processing your data...';
+                
+                this.container.appendChild(statusMessage);
 
                 this.postFormData(data)
                     .then(res => {
-                        console.log(res);
+                        statusMessage.textContent = 'Thank you! You\'re all set.';
                     })
                     .catch(error => {
-                        console.log(error);
+                        statusMessage.textContent = 'Oops, something went wrong! Try again, please.';
                     })
                     .finally(() => {
-                        console.log('finally')
+                        setTimeout(() => {
+                            statusMessage.classList.remove('fadeIn');
+                            statusMessage.classList.add('fadeOut');
+                            setTimeout(() => {
+                                statusMessage.remove();
+                            }, 400);
+                        }, 5000);
                     })
             }
         })

@@ -5265,7 +5265,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var emailInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_7__["default"]('input[type=email]').init();
   var nameInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_7__["default"]('input[name=name]').init();
   var inputs = Array.from(document.querySelectorAll('.join__evolution .form__block input'));
-  var mainForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_8__["default"]('.join .form', inputs).init();
+  var mainForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_8__["default"]('.join .form', '.join .form', inputs).init();
 });
 
 /***/ }),
@@ -5303,9 +5303,10 @@ var Form =
 /*#__PURE__*/
 function () {
   function Form() {
-    var submitSelector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var itemsToCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    var path = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'assets/question.php';
+    var containerSelector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var submitSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var itemsToCheck = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+    var path = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'assets/question.php';
 
     _classCallCheck(this, Form);
 
@@ -5313,6 +5314,8 @@ function () {
     this.itemsToCheck = itemsToCheck;
     this.path = path;
     this.error = false;
+    this.container = document.querySelector(containerSelector);
+    console.log(this.container);
   }
 
   _createClass(Form, [{
@@ -5343,13 +5346,26 @@ function () {
 
         if (!_this.error) {
           var data = new FormData(_this.submit);
+          var statusMessage = document.createElement('div');
+          statusMessage.style.cssText = "\n                    display: flex;\n                    justify-content: flex-start;\n                    font-size: 15px;\n                    font-weight: 900;\n                    color: #fff;\n                ";
+          statusMessage.classList.add('animated', 'fadeIn');
 
           _this.postFormData(data).then(function (res) {
-            console.log(res);
+            statusMessage.textContent = 'Thank you! You\'re all set.';
+
+            _this.container.appendChild(statusMessage);
           }).catch(function (error) {
-            console.log(error);
+            statusMessage.textContent = 'Oops, something went wrong! Try again, please.';
+
+            _this.container.appendChild(statusMessage);
           }).finally(function () {
-            console.log('finally');
+            setTimeout(function () {
+              statusMessage.classList.remove('fadeIn');
+              statusMessage.classList.add('fadeOut');
+              setTimeout(function () {
+                statusMessage.remove();
+              }, 400);
+            }, 5000);
           });
         }
       });
