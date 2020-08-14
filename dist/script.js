@@ -5338,6 +5338,10 @@ function () {
             _this.showErrorBorder(_this.itemsToCheck[i]);
 
             break;
+          } else if (_this.itemsToCheck[i].getAttribute('name') === 'date' && new Date(_this.itemsToCheck[i].value) < new Date()) {
+            _this.showErrorBorder(_this.itemsToCheck[i]);
+
+            break;
           } else if (_this.itemsToCheck[i].style.border = '1px solid red') {
             _this.itemsToCheck[i].style.border = '';
 

@@ -17,12 +17,16 @@ export default class Form {
                 } else if(this.itemsToCheck[i].getAttribute('name') === 'phone' && this.itemsToCheck[i].value.length !== 15) {
                     this.showErrorBorder(this.itemsToCheck[i]);
                     break;
+                } else if(this.itemsToCheck[i].getAttribute('name') === 'date' && new Date(this.itemsToCheck[i].value) < new Date()) {
+                    this.showErrorBorder(this.itemsToCheck[i]);
+                    break;
                 } else if(this.itemsToCheck[i].style.border = '1px solid red') {
                     this.itemsToCheck[i].style.border = '';
                     if(i === this.itemsToCheck.length - 1) {
                         this.error = false;
                     }
-                }
+                } 
+                
             }
 
             if(!this.error) {
