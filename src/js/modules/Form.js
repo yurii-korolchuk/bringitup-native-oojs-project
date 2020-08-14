@@ -1,14 +1,13 @@
 export default class Form {
-    constructor(containerSelector = null, submitSelector = null, itemsToCheck = [], path = 'assets/question.php') {
-        this.submit = document.querySelector(submitSelector);
-        this.itemsToCheck = itemsToCheck;
+    constructor(containerSelector = null, path = 'assets/question.php') {
+        this.container = document.querySelector(containerSelector);
+        this.itemsToCheck = Array.from(this.container.querySelectorAll('input')).filter(item => item.dataset.required)
         this.path = path;
         this.error = false;
-        this.container = document.querySelector(containerSelector);
     }
 
     bindAction() {
-        this.submit.addEventListener('submit', (e) => {
+        this.container.addEventListener('submit', (e) => {
             e.preventDefault();
             for(let i = 0; i < this.itemsToCheck.length; i++) {
                 if(!this.itemsToCheck[i].value.length) {
@@ -26,9 +25,8 @@ export default class Form {
             }
 
             if(!this.error) {
-
-                const data = new FormData(this.submit);
-
+                const data = new FormData(this.container);
+        
                 const statusMessage = document.createElement('div');
                 statusMessage.style.cssText = `
                     display: flex;
@@ -58,6 +56,7 @@ export default class Form {
                             }, 400);
                         }, 5000);
                     })
+                
             }
         })
     }

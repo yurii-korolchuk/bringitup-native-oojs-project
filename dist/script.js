@@ -5265,7 +5265,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var emailInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_7__["default"]('input[type=email]').init();
   var nameInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_7__["default"]('input[name=name]').init();
   var inputs = Array.from(document.querySelectorAll('.join__evolution .form__block input'));
-  var mainForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_8__["default"]('.join .form', '.join .form', inputs).init();
+  var mainForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_8__["default"]('.join .form').init();
 });
 
 /***/ }),
@@ -5280,14 +5280,23 @@ window.addEventListener('DOMContentLoaded', function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Form; });
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
-/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.filter */ "./node_modules/core-js/modules/es.array.filter.js");
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.from */ "./node_modules/core-js/modules/es.array.from.js");
+/* harmony import */ var core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
 
 
 
@@ -5304,18 +5313,16 @@ var Form =
 function () {
   function Form() {
     var containerSelector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var submitSelector = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    var itemsToCheck = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-    var path = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'assets/question.php';
+    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'assets/question.php';
 
     _classCallCheck(this, Form);
 
-    this.submit = document.querySelector(submitSelector);
-    this.itemsToCheck = itemsToCheck;
+    this.container = document.querySelector(containerSelector);
+    this.itemsToCheck = Array.from(this.container.querySelectorAll('input')).filter(function (item) {
+      return item.dataset.required;
+    });
     this.path = path;
     this.error = false;
-    this.container = document.querySelector(containerSelector);
-    console.log(this.container);
   }
 
   _createClass(Form, [{
@@ -5323,7 +5330,7 @@ function () {
     value: function bindAction() {
       var _this = this;
 
-      this.submit.addEventListener('submit', function (e) {
+      this.container.addEventListener('submit', function (e) {
         e.preventDefault();
 
         for (var i = 0; i < _this.itemsToCheck.length; i++) {
@@ -5345,19 +5352,18 @@ function () {
         }
 
         if (!_this.error) {
-          var data = new FormData(_this.submit);
+          var data = new FormData(_this.container);
           var statusMessage = document.createElement('div');
           statusMessage.style.cssText = "\n                    display: flex;\n                    justify-content: flex-start;\n                    font-size: 15px;\n                    font-weight: 900;\n                    color: #fff;\n                ";
           statusMessage.classList.add('animated', 'fadeIn');
+          statusMessage.textContent = 'Please wait while we are processing your data...';
+
+          _this.container.appendChild(statusMessage);
 
           _this.postFormData(data).then(function (res) {
             statusMessage.textContent = 'Thank you! You\'re all set.';
-
-            _this.container.appendChild(statusMessage);
           }).catch(function (error) {
             statusMessage.textContent = 'Oops, something went wrong! Try again, please.';
-
-            _this.container.appendChild(statusMessage);
           }).finally(function () {
             setTimeout(function () {
               statusMessage.classList.remove('fadeIn');

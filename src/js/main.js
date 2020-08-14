@@ -59,5 +59,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const inputs = Array.from(document.querySelectorAll('.join__evolution .form__block input'));
 
-    const mainForm = new Form('.join .form', '.join .form', inputs).init();
+    const mainForm = new Form('.join .form').init();
 });
