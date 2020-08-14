@@ -1,8 +1,9 @@
 export default class Form {
-    constructor(containerSelector = null, path = 'assets/question.php') {
+    constructor(containerSelector = null, statusColor = '#fff', path = 'assets/question.php') {
         this.container = document.querySelector(containerSelector);
         this.itemsToCheck = Array.from(this.container.querySelectorAll('input')).filter(item => item.dataset.required)
         this.path = path;
+        this.statusColor = statusColor;
         this.error = false;
     }
 
@@ -33,7 +34,7 @@ export default class Form {
                     justify-content: flex-start;
                     font-size: 15px;
                     font-weight: 900;
-                    color: #fff;
+                    color: ${this.statusColor};
                 `;
                 statusMessage.classList.add('animated', 'fadeIn');
                 statusMessage.textContent = 'Please wait while we are processing your data...';

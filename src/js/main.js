@@ -57,7 +57,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const emailInput = new TextInput('input[type=email]').init();
     const nameInput = new TextInput('input[name=name]').init();
 
-    const inputs = Array.from(document.querySelectorAll('.join__evolution .form__block input'));
-
     const mainForm = new Form('.join .form').init();
+    const scheduleForm = new Form('.schedule .form', '#000').init();
 });

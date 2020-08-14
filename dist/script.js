@@ -5199,19 +5199,13 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.from */ "./node_modules/core-js/modules/es.array.from.js");
-/* harmony import */ var core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _modules_slider_MainSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/slider/MainSlider */ "./src/js/modules/slider/MainSlider.js");
-/* harmony import */ var _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/VideoPlayer */ "./src/js/modules/VideoPlayer.js");
-/* harmony import */ var _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/slider/MiniSlider */ "./src/js/modules/slider/MiniSlider.js");
-/* harmony import */ var _modules_LoadItems__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/LoadItems */ "./src/js/modules/LoadItems.js");
-/* harmony import */ var _modules_Mask__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/Mask */ "./src/js/modules/Mask.js");
-/* harmony import */ var _modules_TextInput__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/TextInput */ "./src/js/modules/TextInput.js");
-/* harmony import */ var _modules_Form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/Form */ "./src/js/modules/Form.js");
-
-
+/* harmony import */ var _modules_slider_MainSlider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider/MainSlider */ "./src/js/modules/slider/MainSlider.js");
+/* harmony import */ var _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/VideoPlayer */ "./src/js/modules/VideoPlayer.js");
+/* harmony import */ var _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/slider/MiniSlider */ "./src/js/modules/slider/MiniSlider.js");
+/* harmony import */ var _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/LoadItems */ "./src/js/modules/LoadItems.js");
+/* harmony import */ var _modules_Mask__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Mask */ "./src/js/modules/Mask.js");
+/* harmony import */ var _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/TextInput */ "./src/js/modules/TextInput.js");
+/* harmony import */ var _modules_Form__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/Form */ "./src/js/modules/Form.js");
 
 
 
@@ -5220,7 +5214,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.addEventListener('DOMContentLoaded', function () {
-  var slider = new _modules_slider_MainSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
+  var slider = new _modules_slider_MainSlider__WEBPACK_IMPORTED_MODULE_0__["default"]({
     container: '.page',
     nextButton: '.next',
     fadeInClass: 'fadeInUp',
@@ -5229,7 +5223,7 @@ window.addEventListener('DOMContentLoaded', function () {
       fadeInNext: 'fadeInUp'
     }
   }).render();
-  var showupSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_4__["default"]({
+  var showupSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
     container: '.showup__content-slider',
     nextButton: '.showup__next',
     prevButton: '.showup__prev',
@@ -5239,7 +5233,7 @@ window.addEventListener('DOMContentLoaded', function () {
       fadeInPrev: 'fadeInLeft'
     }
   }).render();
-  var modulesSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_4__["default"]({
+  var modulesSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
     container: '.modules__content-slider',
     nextButton: '.slick-next',
     prevButton: '.slick-prev',
@@ -5251,21 +5245,21 @@ window.addEventListener('DOMContentLoaded', function () {
     },
     autoplay: true
   }).render();
-  var feedSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_4__["default"]({
+  var feedSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
     container: '.feed__slider',
     nextButton: '.slick-next',
     prevButton: '.slick-prev',
     activeClass: 'feed__item-active',
     elementsToIgnore: 'button'
   }).render();
-  var player = new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_3__["default"]('.overlay', '.play', '.overlay .close').init();
-  var loadBefore = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_5__["default"]('.officerold', '.officer__card-item', '.officer__card-show').init();
-  var loadNew = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_5__["default"]('.officernew', '.officer__card-item', '.officer__card-show').init();
-  var mask = new _modules_Mask__WEBPACK_IMPORTED_MODULE_6__["default"]('input[name=phone]', '+1 (___) __-___').init();
-  var emailInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_7__["default"]('input[type=email]').init();
-  var nameInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_7__["default"]('input[name=name]').init();
-  var inputs = Array.from(document.querySelectorAll('.join__evolution .form__block input'));
-  var mainForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_8__["default"]('.join .form').init();
+  var player = new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.overlay .close').init();
+  var loadBefore = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officerold', '.officer__card-item', '.officer__card-show').init();
+  var loadNew = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officernew', '.officer__card-item', '.officer__card-show').init();
+  var mask = new _modules_Mask__WEBPACK_IMPORTED_MODULE_4__["default"]('input[name=phone]', '+1 (___) __-___').init();
+  var emailInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[type=email]').init();
+  var nameInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[name=name]').init();
+  var mainForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.join .form').init();
+  var scheduleForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.schedule .form', '#000').init();
 });
 
 /***/ }),
@@ -5313,7 +5307,8 @@ var Form =
 function () {
   function Form() {
     var containerSelector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'assets/question.php';
+    var statusColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '#fff';
+    var path = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'assets/question.php';
 
     _classCallCheck(this, Form);
 
@@ -5322,6 +5317,7 @@ function () {
       return item.dataset.required;
     });
     this.path = path;
+    this.statusColor = statusColor;
     this.error = false;
   }
 
@@ -5354,7 +5350,7 @@ function () {
         if (!_this.error) {
           var data = new FormData(_this.container);
           var statusMessage = document.createElement('div');
-          statusMessage.style.cssText = "\n                    display: flex;\n                    justify-content: flex-start;\n                    font-size: 15px;\n                    font-weight: 900;\n                    color: #fff;\n                ";
+          statusMessage.style.cssText = "\n                    display: flex;\n                    justify-content: flex-start;\n                    font-size: 15px;\n                    font-weight: 900;\n                    color: ".concat(_this.statusColor, ";\n                ");
           statusMessage.classList.add('animated', 'fadeIn');
           statusMessage.textContent = 'Please wait while we are processing your data...';
 
