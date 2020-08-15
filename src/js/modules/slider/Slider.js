@@ -1,20 +1,22 @@
 export default class Slider {
     constructor({container = null, prevButton = null, nextButton = null, fadeIn = {}, autoplay = false } = {}) {
         this.container = document.querySelector(container);
-        try { this.slides = this.container.children; } catch(e) {};
-        this.autoplay = autoplay;
-        if(Object.keys(fadeIn).length) this.fadeIn = fadeIn;
-        try {
-            this.nextButton = document.querySelectorAll(nextButton);            
-            this.prevButton = document.querySelectorAll(prevButton);
-        } catch(e) {}
+        if(this.container) {
+            try { this.slides = this.container.children; } catch(e) {};
+            this.autoplay = autoplay;
+            if(Object.keys(fadeIn).length) this.fadeIn = fadeIn;
+            try {
+                this.nextButton = document.querySelectorAll(nextButton);            
+                this.prevButton = document.querySelectorAll(prevButton);
+            } catch(e) {}
 
-        this.slideIndex = 0;
-        try {
-            this.slides.forEach(item => {
-                item.classList.add('animated');
-            })
-        } catch(e) {}
+            this.slideIndex = 0;
+            try {
+                this.slides.forEach(item => {
+                    item.classList.add('animated');
+                })
+            } catch(e) {}
+        }
     }
 
     showSlide(n) {
@@ -22,10 +24,10 @@ export default class Slider {
 
         this.slides.forEach((item, i) => {
             if(this.slideIndex == i) {
-                if(this.fadeIn) item.classList.add(this.fadeIn.fadeInNext);
+                if(this.fadeIn != {}) item.classList.add(this.fadeIn.fadeInNext);
                 item.style.display = 'block';
             } else {
-                if(this.fadeIn) item.classList.remove(this.fadeIn.fadeInNext);
+                if(this.fadeIn != {}) item.classList.remove(this.fadeIn.fadeInNext);
                 item.style.display = 'none';
             }
         })
@@ -35,14 +37,14 @@ export default class Slider {
         if(click && this.autoplay) {
             clearInterval(this.auto)
         }
-        this.showSlide(this.slideIndex += 1);
+        this.showSlide(1);
     }
 
     showPrevSlide(click) {
         if(click && this.autoplay) {
             clearInterval(this.auto)
         }
-        this.showSlide(this.slideIndex += -1);
+        this.showSlide(-1);
     }
 
     bindAction(item, action, callback) {

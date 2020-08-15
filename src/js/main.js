@@ -9,11 +9,23 @@ import Form from './modules/Form';
 window.addEventListener('DOMContentLoaded', () => {
     const slider = new MainSlider({
         container: '.page', 
-        nextButton: '.next', 
+        nextButton: '.page .next', 
         fadeInClass: 'fadeInUp',
-        resetButton: '.home',
+        resetButton: '.page .home',
         fadeIn: {
             fadeInNext: 'fadeInUp'
+        }
+    }).render();
+
+    const modulesPageSlide = new MainSlider({
+        container: '.moduleapp', 
+        prevButton: '.moduleapp .prev',
+        nextButton: '.moduleapp .next', 
+        fadeInClass: 'fadeInUp',
+        resetButton: '.moduleapp .home',
+        fadeIn: {
+            fadeInNext: 'fadeInUp',
+            fadeInPrev: 'fadeInDown'
         }
     }).render();
 

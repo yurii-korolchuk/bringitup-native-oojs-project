@@ -20,7 +20,6 @@ export default class MiniSlider extends Slider {
                 container.appendChild(item);
             }
         })
-
         container.appendChild(slides[0]);
         if(fadeIn) {
             slides.forEach(item => {
@@ -79,7 +78,7 @@ export default class MiniSlider extends Slider {
 
             if(this.autoplay) {
                 this.auto = setInterval(() => {
-                    this.showNextSlide();
+                    try { this.showNextSlide(); } catch(e) { clearInterval(this.auto); }
                 }, 6500)
             }
         } catch(e) {}

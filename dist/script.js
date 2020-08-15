@@ -5216,11 +5216,22 @@ __webpack_require__.r(__webpack_exports__);
 window.addEventListener('DOMContentLoaded', function () {
   var slider = new _modules_slider_MainSlider__WEBPACK_IMPORTED_MODULE_0__["default"]({
     container: '.page',
-    nextButton: '.next',
+    nextButton: '.page .next',
     fadeInClass: 'fadeInUp',
-    resetButton: '.home',
+    resetButton: '.page .home',
     fadeIn: {
       fadeInNext: 'fadeInUp'
+    }
+  }).render();
+  var modulesPageSlide = new _modules_slider_MainSlider__WEBPACK_IMPORTED_MODULE_0__["default"]({
+    container: '.moduleapp',
+    prevButton: '.moduleapp .prev',
+    nextButton: '.moduleapp .next',
+    fadeInClass: 'fadeInUp',
+    resetButton: '.moduleapp .home',
+    fadeIn: {
+      fadeInNext: 'fadeInUp',
+      fadeInPrev: 'fadeInDown'
     }
   }).render();
   var showupSlider = new _modules_slider_MiniSlider__WEBPACK_IMPORTED_MODULE_2__["default"]({
@@ -5845,6 +5856,7 @@ function (_Slider) {
       _this.resetButton = document.querySelectorAll(resetButton);
     } catch (e) {}
 
+    console.log(_this.resetButton);
     return _this;
   }
 
@@ -5853,10 +5865,17 @@ function (_Slider) {
     value: function showSlide(n) {
       var _this2 = this;
 
-      this.slideIndex = n > this.slides.length - 1 ? 0 : n < 0 ? this.slides.length - 1 : n;
+      var className;
+      if (this.fadeIn) className = n === -1 ? this.fadeIn.fadeInPrev : this.fadeIn.fadeInNext;
+      this.slideIndex += n;
+      this.slideIndex = this.slideIndex < 0 ? this.slides.length - 1 : this.slideIndex > this.slides.length - 1 ? 0 : this.slideIndex;
+      if (n === 0) this.slideIndex = 0;
       this.slides.forEach(function (item, i) {
-        if (_this2.slideIndex == i) {
-          if (_this2.fadeIn) item.classList.add(_this2.fadeIn.fadeInNext);
+        if (_this2.slideIndex === i) {
+          if (_this2.fadeIn) {
+            item.classList.add(className);
+          }
+
           item.style.display = 'block';
 
           if (item.classList.contains('modules')) {
@@ -5869,7 +5888,7 @@ function (_Slider) {
             }, 3000);
           }
         } else {
-          if (_this2.fadeIn) item.classList.remove(_this2.fadeIn.fadeInNext);
+          if (_this2.fadeIn) item.classList.remove(_this2.fadeIn.fadeInNext, _this2.fadeIn.fadeInPrev);
           item.style.display = 'none';
         }
       });
@@ -5879,17 +5898,26 @@ function (_Slider) {
     value: function render() {
       var _this3 = this;
 
-      try {
-        this.bindAction(this.nextButton, 'click', function () {
-          return _this3.showNextSlide();
+      if (this.container) {
+        this.bindAction(this.nextButton, 'click', function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          _this3.showNextSlide();
         });
-        this.bindAction(this.resetButton, 'click', function () {
-          return _this3.showSlide(0);
+        this.bindAction(this.resetButton, 'click', function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          _this3.showSlide(0);
         });
-        this.bindAction(this.prevButton, 'click', function () {
-          return _this3.showPrevSlide();
+        this.bindAction(this.prevButton, 'click', function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          _this3.showPrevSlide();
         });
-      } catch (e) {}
+      }
     }
   }]);
 
@@ -6086,7 +6114,11 @@ function (_Slider) {
 
         if (this.autoplay) {
           this.auto = setInterval(function () {
-            _this2.showNextSlide();
+            try {
+              _this2.showNextSlide();
+            } catch (e) {
+              clearInterval(_this2.auto);
+            }
           }, 6500);
         }
       } catch (e) {}
@@ -6143,26 +6175,28 @@ function () {
 
     this.container = document.querySelector(container);
 
-    try {
-      this.slides = this.container.children;
-    } catch (e) {}
+    if (this.container) {
+      try {
+        this.slides = this.container.children;
+      } catch (e) {}
 
-    ;
-    this.autoplay = autoplay;
-    if (Object.keys(fadeIn).length) this.fadeIn = fadeIn;
+      ;
+      this.autoplay = autoplay;
+      if (Object.keys(fadeIn).length) this.fadeIn = fadeIn;
 
-    try {
-      this.nextButton = document.querySelectorAll(nextButton);
-      this.prevButton = document.querySelectorAll(prevButton);
-    } catch (e) {}
+      try {
+        this.nextButton = document.querySelectorAll(nextButton);
+        this.prevButton = document.querySelectorAll(prevButton);
+      } catch (e) {}
 
-    this.slideIndex = 0;
+      this.slideIndex = 0;
 
-    try {
-      this.slides.forEach(function (item) {
-        item.classList.add('animated');
-      });
-    } catch (e) {}
+      try {
+        this.slides.forEach(function (item) {
+          item.classList.add('animated');
+        });
+      } catch (e) {}
+    }
   }
 
   _createClass(Slider, [{
@@ -6173,10 +6207,10 @@ function () {
       this.slideIndex = n > this.slides.length - 1 ? 0 : n < 0 ? this.slides.length - 1 : n;
       this.slides.forEach(function (item, i) {
         if (_this.slideIndex == i) {
-          if (_this.fadeIn) item.classList.add(_this.fadeIn.fadeInNext);
+          if (_this.fadeIn != {}) item.classList.add(_this.fadeIn.fadeInNext);
           item.style.display = 'block';
         } else {
-          if (_this.fadeIn) item.classList.remove(_this.fadeIn.fadeInNext);
+          if (_this.fadeIn != {}) item.classList.remove(_this.fadeIn.fadeInNext);
           item.style.display = 'none';
         }
       });
@@ -6188,7 +6222,7 @@ function () {
         clearInterval(this.auto);
       }
 
-      this.showSlide(this.slideIndex += 1);
+      this.showSlide(1);
     }
   }, {
     key: "showPrevSlide",
@@ -6197,7 +6231,7 @@ function () {
         clearInterval(this.auto);
       }
 
-      this.showSlide(this.slideIndex += -1);
+      this.showSlide(-1);
     }
   }, {
     key: "bindAction",
