@@ -1,7 +1,7 @@
 export default class Slider {
     constructor({container = null, prevButton = null, nextButton = null, fadeIn = {}, autoplay = false } = {}) {
         this.container = document.querySelector(container);
-        this.slides = this.container.children;
+        try { this.slides = this.container.children; } catch(e) {};
         this.autoplay = autoplay;
         if(Object.keys(fadeIn).length) this.fadeIn = fadeIn;
         try {
@@ -10,9 +10,11 @@ export default class Slider {
         } catch(e) {}
 
         this.slideIndex = 0;
-        this.slides.forEach(item => {
-            item.classList.add('animated');
-        })
+        try {
+            this.slides.forEach(item => {
+                item.classList.add('animated');
+            })
+        } catch(e) {}
     }
 
     showSlide(n) {
@@ -58,10 +60,12 @@ export default class Slider {
             this.bindAction(this.nextButton, 'click', () => this.showNextSlide(true));
             this.bindAction(this.prevButton, 'click', () => this.showPrevSlide(true));
         } catch(e) {}
-        if(this.autoplay) {
-            this.auto = setInterval(() => {
-                this.showNextSlide();
-            },3000);
-        }
+        try {
+            if(this.autoplay) {
+                this.auto = setInterval(() => {
+                    this.showNextSlide();
+                },3000);
+            }
+        } catch(e) {}
     }
 }

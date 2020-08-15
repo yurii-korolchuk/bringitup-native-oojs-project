@@ -1,8 +1,10 @@
 export default class LoadItems {
     constructor(containerSelector, itemsSelector, triggerSelector) {
         this.container = document.querySelector(containerSelector);
-        this.trigger = this.container.querySelector(triggerSelector);
-        this.itemsToShow = Array.from(this.container.querySelectorAll(itemsSelector)).filter(item => item !== this.trigger);
+        try {
+            this.trigger = this.container.querySelector(triggerSelector);
+            this.itemsToShow = Array.from(this.container.querySelectorAll(itemsSelector)).filter(item => item !== this.trigger);
+        } catch(e) {}
     }
 
     bindTrigger() {
@@ -18,11 +20,15 @@ export default class LoadItems {
     }
 
     init() {
-        this.itemsToShow.forEach(item => {
-            item.style.display = 'none';
-            item.classList.add('animated', 'fadeInDown');
-        });
+        try {
+            this.itemsToShow.forEach(item => {
+                item.style.display = 'none';
+                item.classList.add('animated', 'fadeInDown');
+            });
+        } catch(e) {}
 
-        this.bindTrigger();
+        try {
+            this.bindTrigger();
+        } catch(e) {}
     }
 }

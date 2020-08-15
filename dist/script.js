@@ -5286,8 +5286,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
 /* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -5313,9 +5316,13 @@ function () {
     _classCallCheck(this, Form);
 
     this.container = document.querySelector(containerSelector);
-    this.itemsToCheck = Array.from(this.container.querySelectorAll('input')).filter(function (item) {
-      return item.dataset.required;
-    });
+
+    try {
+      this.itemsToCheck = Array.from(this.container.querySelectorAll('input')).filter(function (item) {
+        return item.dataset.required;
+      });
+    } catch (e) {}
+
     this.path = path;
     this.statusColor = statusColor;
     this.error = false;
@@ -5365,6 +5372,10 @@ function () {
           }).catch(function (error) {
             statusMessage.textContent = 'Oops, something went wrong! Try again, please.';
           }).finally(function () {
+            _this.itemsToCheck.forEach(function (item) {
+              item.value = '';
+            });
+
             setTimeout(function () {
               statusMessage.classList.remove('fadeIn');
               statusMessage.classList.add('fadeOut');
@@ -5414,7 +5425,9 @@ function () {
   }, {
     key: "init",
     value: function init() {
-      this.bindAction();
+      try {
+        this.bindAction();
+      } catch (e) {}
     }
   }]);
 
@@ -5463,10 +5476,13 @@ function () {
     _classCallCheck(this, LoadItems);
 
     this.container = document.querySelector(containerSelector);
-    this.trigger = this.container.querySelector(triggerSelector);
-    this.itemsToShow = Array.from(this.container.querySelectorAll(itemsSelector)).filter(function (item) {
-      return item !== _this.trigger;
-    });
+
+    try {
+      this.trigger = this.container.querySelector(triggerSelector);
+      this.itemsToShow = Array.from(this.container.querySelectorAll(itemsSelector)).filter(function (item) {
+        return item !== _this.trigger;
+      });
+    } catch (e) {}
   }
 
   _createClass(LoadItems, [{
@@ -5489,11 +5505,16 @@ function () {
   }, {
     key: "init",
     value: function init() {
-      this.itemsToShow.forEach(function (item) {
-        item.style.display = 'none';
-        item.classList.add('animated', 'fadeInDown');
-      });
-      this.bindTrigger();
+      try {
+        this.itemsToShow.forEach(function (item) {
+          item.style.display = 'none';
+          item.classList.add('animated', 'fadeInDown');
+        });
+      } catch (e) {}
+
+      try {
+        this.bindTrigger();
+      } catch (e) {}
     }
   }]);
 
@@ -5633,7 +5654,7 @@ function () {
     value: function init() {
       this.container.forEach(function (item) {
         item.addEventListener('keypress', function (e) {
-          var regExp = item.getAttribute('type') === 'email' ? /[^a-z@\.]/ig : /[^a-z]/ig;
+          var regExp = item.getAttribute('type') === 'email' ? /[^a-z0-9@\.]/ig : /[^a-z]/ig;
           if (e.key.match(regExp)) e.preventDefault();
         });
       });
@@ -5975,7 +5996,11 @@ function (_Slider) {
       autoplay: autoplay
     }));
     _this.activeClass = activeClass;
-    if (elementsToIgnore.length) _this.elementsToIgnore = _this.container.querySelectorAll(elementsToIgnore);
+
+    try {
+      _this.elementsToIgnore = _this.container.querySelectorAll(elementsToIgnore);
+    } catch (e) {}
+
     return _this;
   }
 
@@ -6047,19 +6072,24 @@ function (_Slider) {
     value: function render() {
       var _this2 = this;
 
-      this.container.style.cssText = "\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            flex-wrap: wrap;\n            overflow: hidden;\n        ";
-      this.bindAction(this.nextButton, 'click', function () {
-        return _this2.showNextSlide(true);
-      });
-      this.bindAction(this.prevButton, 'click', function () {
-        return _this2.showPrevSlide(true);
-      });
-
-      if (this.autoplay) {
-        this.auto = setInterval(function () {
-          _this2.showNextSlide();
-        }, 6500);
+      if (this.container) {
+        this.container.style.cssText = "\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            flex-wrap: wrap;\n            overflow: hidden;\n            ";
       }
+
+      try {
+        this.bindAction(this.nextButton, 'click', function () {
+          return _this2.showNextSlide(true);
+        });
+        this.bindAction(this.prevButton, 'click', function () {
+          return _this2.showPrevSlide(true);
+        });
+
+        if (this.autoplay) {
+          this.auto = setInterval(function () {
+            _this2.showNextSlide();
+          }, 6500);
+        }
+      } catch (e) {}
     }
   }]);
 
@@ -6112,7 +6142,12 @@ function () {
     _classCallCheck(this, Slider);
 
     this.container = document.querySelector(container);
-    this.slides = this.container.children;
+
+    try {
+      this.slides = this.container.children;
+    } catch (e) {}
+
+    ;
     this.autoplay = autoplay;
     if (Object.keys(fadeIn).length) this.fadeIn = fadeIn;
 
@@ -6122,9 +6157,12 @@ function () {
     } catch (e) {}
 
     this.slideIndex = 0;
-    this.slides.forEach(function (item) {
-      item.classList.add('animated');
-    });
+
+    try {
+      this.slides.forEach(function (item) {
+        item.classList.add('animated');
+      });
+    } catch (e) {}
   }
 
   _createClass(Slider, [{
@@ -6186,11 +6224,13 @@ function () {
         });
       } catch (e) {}
 
-      if (this.autoplay) {
-        this.auto = setInterval(function () {
-          _this2.showNextSlide();
-        }, 3000);
-      }
+      try {
+        if (this.autoplay) {
+          this.auto = setInterval(function () {
+            _this2.showNextSlide();
+          }, 3000);
+        }
+      } catch (e) {}
     }
   }]);
 

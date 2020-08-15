@@ -6,7 +6,7 @@ export default class TextInput {
     init() {
         this.container.forEach(item => {
             item.addEventListener('keypress', (e) => {
-                const regExp = item.getAttribute('type') === 'email' ? /[^a-z@\.]/ig : /[^a-z]/ig;
+                const regExp = item.getAttribute('type') === 'email' ? /[^a-z0-9@\.]/ig : /[^a-z]/ig;
                 if(e.key.match(regExp)) e.preventDefault();
             })
         })

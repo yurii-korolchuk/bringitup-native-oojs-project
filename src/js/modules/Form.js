@@ -1,7 +1,7 @@
 export default class Form {
     constructor(containerSelector = null, statusColor = '#fff', path = 'assets/question.php') {
         this.container = document.querySelector(containerSelector);
-        this.itemsToCheck = Array.from(this.container.querySelectorAll('input')).filter(item => item.dataset.required)
+        try { this.itemsToCheck = Array.from(this.container.querySelectorAll('input')).filter(item => item.dataset.required) } catch(e) {}
         this.path = path;
         this.statusColor = statusColor;
         this.error = false;
@@ -53,6 +53,9 @@ export default class Form {
                         statusMessage.textContent = 'Oops, something went wrong! Try again, please.';
                     })
                     .finally(() => {
+                        this.itemsToCheck.forEach(item => {
+                            item.value = '';
+                        })
                         setTimeout(() => {
                             statusMessage.classList.remove('fadeIn');
                             statusMessage.classList.add('fadeOut');
@@ -80,6 +83,6 @@ export default class Form {
     };
 
     init() {
-        this.bindAction();
+        try { this.bindAction(); } catch(e) {}
     }
 }

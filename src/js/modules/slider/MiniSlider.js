@@ -4,7 +4,9 @@ export default class MiniSlider extends Slider {
     constructor({container, prevButton = null, nextButton = null, activeClass = '', elementsToIgnore = '', fadeIn = {}, autoplay = false } = {}) {
         super({container, prevButton, nextButton, elementsToIgnore, fadeIn, autoplay});
         this.activeClass = activeClass;
-        if(elementsToIgnore.length) this.elementsToIgnore = this.container.querySelectorAll(elementsToIgnore);
+        try {
+            this.elementsToIgnore = this.container.querySelectorAll(elementsToIgnore);
+        } catch(e) {}
     }   
 
     showNextSlide(click) {
@@ -61,20 +63,25 @@ export default class MiniSlider extends Slider {
     }
 
     render() {
-        this.container.style.cssText = `
+        if(this.container) {
+            this.container.style.cssText = `
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
             overflow: hidden;
-        `;
-        this.bindAction(this.nextButton, 'click', () => this.showNextSlide(true));
-        this.bindAction(this.prevButton, 'click', () => this.showPrevSlide(true));
-
-        if(this.autoplay) {
-            this.auto = setInterval(() => {
-                this.showNextSlide();
-            }, 6500)
+            `;
         }
+
+        try {
+            this.bindAction(this.nextButton, 'click', () => this.showNextSlide(true));
+            this.bindAction(this.prevButton, 'click', () => this.showPrevSlide(true));
+
+            if(this.autoplay) {
+                this.auto = setInterval(() => {
+                    this.showNextSlide();
+                }, 6500)
+            }
+        } catch(e) {}
     }
 }
