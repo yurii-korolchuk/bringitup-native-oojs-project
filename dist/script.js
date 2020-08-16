@@ -5709,6 +5709,7 @@ function () {
     this.trigger = document.querySelectorAll(triggerSelector);
     this.close = this.container.querySelector(closeSelector);
     this.container.classList.add('animated', 'fadeIn');
+    this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
   }
 
   _createClass(VideoPlayer, [{
@@ -5750,8 +5751,26 @@ function () {
         this.player = new YT.Player('frame', {
           height: '100%',
           width: '100%',
-          videoId: "".concat(url)
+          videoId: "".concat(url),
+          events: {
+            'onStateChange': this.onPlayerStateChange
+          }
         });
+      }
+    }
+  }, {
+    key: "onPlayerStateChange",
+    value: function onPlayerStateChange() {
+      if (this.player.getPlayerState() === 0) {
+        try {
+          if (this.activeBtn.closest('.module__video-item').nextElementSibling.classList.contains('module__video-item')) {
+            var nextBtn = this.activeBtn.closest('.module__video-item').nextElementSibling;
+            var active = this.activeBtn.querySelector('.play__circle').cloneNode(true);
+            nextBtn.querySelector('.play__circle').classList.remove('closed');
+            nextBtn.querySelector('.play__circle').innerHTML = active.innerHTML;
+            nextBtn.style.cssText = "\n                        filter: none;\n                        opacity: 1;\n                    ";
+          }
+        } catch (e) {}
       }
     }
   }, {

@@ -5,6 +5,8 @@ export default class VideoPlayer {
         this.close = this.container.querySelector(closeSelector);
 
         this.container.classList.add('animated', 'fadeIn');
+
+        this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
     }
     
     bindOpenAndCloseTriggers() {
@@ -40,8 +42,28 @@ export default class VideoPlayer {
             this.player = new YT.Player('frame', {
                 height: '100%',
                 width: '100%',
-                videoId: `${url}`
+                videoId: `${url}`,
+                events: {
+                    'onStateChange': this.onPlayerStateChange
+                }
             });
+        }
+    }
+
+    onPlayerStateChange() {
+        if(this.player.getPlayerState() === 0) {
+            try {
+                if(this.activeBtn.closest('.module__video-item').nextElementSibling.classList.contains('module__video-item')) {
+                    const nextBtn = this.activeBtn.closest('.module__video-item').nextElementSibling;
+                    const active = this.activeBtn.querySelector('.play__circle').cloneNode(true);
+                    nextBtn.querySelector('.play__circle').classList.remove('closed');
+                    nextBtn.querySelector('.play__circle').innerHTML = active.innerHTML;
+                    nextBtn.style.cssText = `
+                        filter: none;
+                        opacity: 1;
+                    `;
+                }
+            } catch(e) {}
         }
     }
 
