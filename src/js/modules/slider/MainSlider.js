@@ -6,7 +6,6 @@ constructor({container, prevButton, nextButton, fadeIn = {}, resetButton = null}
         try {
             this.resetButton = document.querySelectorAll(resetButton);
         } catch(e) {}
-        console.log(this.resetButton)
     }
 
     showSlide(n) {

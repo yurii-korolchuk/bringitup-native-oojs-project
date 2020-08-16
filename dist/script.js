@@ -5263,14 +5263,14 @@ window.addEventListener('DOMContentLoaded', function () {
     activeClass: 'feed__item-active',
     elementsToIgnore: 'button'
   }).render();
-  var player = new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.overlay .close').init();
-  var loadBefore = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officerold', '.officer__card-item', '.officer__card-show').init();
-  var loadNew = new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officernew', '.officer__card-item', '.officer__card-show').init();
-  var mask = new _modules_Mask__WEBPACK_IMPORTED_MODULE_4__["default"]('input[name=phone]', '+1 (___) __-___').init();
-  var emailInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[type=email]').init();
-  var nameInput = new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[name=name]').init();
-  var mainForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.join .form').init();
-  var scheduleForm = new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.schedule .form', '#000').init();
+  new _modules_VideoPlayer__WEBPACK_IMPORTED_MODULE_1__["default"]('.overlay', '.play', '.overlay .close').init();
+  new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officerold', '.officer__card-item', '.officer__card-show').init();
+  new _modules_LoadItems__WEBPACK_IMPORTED_MODULE_3__["default"]('.officernew', '.officer__card-item', '.officer__card-show').init();
+  new _modules_Mask__WEBPACK_IMPORTED_MODULE_4__["default"]('input[name=phone]', '+1 (___) __-___').init();
+  new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[type=email]').init();
+  new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[name=name]').init();
+  new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.join .form').init();
+  new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.schedule .form', '#000').init();
 });
 
 /***/ }),
@@ -5689,6 +5689,10 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoPlayer; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -5699,33 +5703,34 @@ var VideoPlayer =
 /*#__PURE__*/
 function () {
   function VideoPlayer(containerSelector, triggerSelector, closeSelector) {
-    var _this = this;
-
     _classCallCheck(this, VideoPlayer);
 
     this.container = document.querySelector(containerSelector);
-    this.trigger = document.querySelector(triggerSelector);
+    this.trigger = document.querySelectorAll(triggerSelector);
     this.close = this.container.querySelector(closeSelector);
     this.container.classList.add('animated', 'fadeIn');
-    this.trigger.addEventListener('click', function () {
-      _this.container.style.display = 'flex';
-    });
   }
 
   _createClass(VideoPlayer, [{
     key: "bindOpenAndCloseTriggers",
     value: function bindOpenAndCloseTriggers() {
-      var _this2 = this;
+      var _this = this;
 
-      this.trigger.addEventListener('click', function () {
-        _this2.openOverlayWithVideo(_this2.trigger.getAttribute('data-url'));
+      this.trigger.forEach(function (item) {
+        item.addEventListener('click', function () {
+          if (!item.querySelector('.play__circle').classList.contains('closed')) {
+            _this.activeBtn = item;
+
+            _this.openOverlayWithVideo(_this.activeBtn.getAttribute('data-url'));
+          }
+        });
       });
       this.close.addEventListener('click', function () {
-        _this2.closeOverlayWithVideo();
+        _this.closeOverlayWithVideo();
       });
       this.container.addEventListener('click', function (e) {
-        if (e.target && e.target === _this2.container) {
-          _this2.closeOverlayWithVideo();
+        if (e.target && e.target === _this.container) {
+          _this.closeOverlayWithVideo();
         }
       });
     }
@@ -5734,6 +5739,12 @@ function () {
     value: function openOverlayWithVideo(url) {
       if (document.querySelector('iframe#frame')) {
         this.container.style.display = 'flex';
+
+        if (url !== this.player.getVideoData()['video_id']) {
+          this.player.loadVideoById({
+            videoId: url
+          });
+        }
       } else {
         this.container.style.display = 'flex';
         this.player = new YT.Player('frame', {
@@ -5856,7 +5867,6 @@ function (_Slider) {
       _this.resetButton = document.querySelectorAll(resetButton);
     } catch (e) {}
 
-    console.log(_this.resetButton);
     return _this;
   }
 

@@ -61,14 +61,14 @@ window.addEventListener('DOMContentLoaded', () => {
         elementsToIgnore: 'button'
     }).render();
 
-    const player = new VideoPlayer('.overlay', '.play', '.overlay .close').init();
+    new VideoPlayer('.overlay', '.play', '.overlay .close').init();
 
-    const loadBefore = new LoadItems('.officerold', '.officer__card-item', '.officer__card-show').init();
-    const loadNew = new LoadItems('.officernew', '.officer__card-item', '.officer__card-show').init();
-    const mask = new Mask('input[name=phone]', '+1 (___) __-___').init();
-    const emailInput = new TextInput('input[type=email]').init();
-    const nameInput = new TextInput('input[name=name]').init();
+    new LoadItems('.officerold', '.officer__card-item', '.officer__card-show').init();
+    new LoadItems('.officernew', '.officer__card-item', '.officer__card-show').init();
+    new Mask('input[name=phone]', '+1 (___) __-___').init();
+    new TextInput('input[type=email]').init();
+    new TextInput('input[name=name]').init();
 
-    const mainForm = new Form('.join .form').init();
-    const scheduleForm = new Form('.schedule .form', '#000').init();
+    new Form('.join .form').init();
+    new Form('.schedule .form', '#000').init();
 });
