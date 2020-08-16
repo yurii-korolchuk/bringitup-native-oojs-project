@@ -5,6 +5,7 @@ import LoadItems from './modules/LoadItems';
 import Mask from './modules/Mask';
 import TextInput from './modules/TextInput';
 import Form from './modules/Form';
+import Accordion from './modules/Accordion';
 
 window.addEventListener('DOMContentLoaded', () => {
     const slider = new MainSlider({
@@ -71,4 +72,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
     new Form('.join .form').init();
     new Form('.schedule .form', '#000').init();
+    new Accordion('.module .module__info-show').init();
 });

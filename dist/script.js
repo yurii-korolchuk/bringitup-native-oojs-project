@@ -5206,6 +5206,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_Mask__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Mask */ "./src/js/modules/Mask.js");
 /* harmony import */ var _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/TextInput */ "./src/js/modules/TextInput.js");
 /* harmony import */ var _modules_Form__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/Form */ "./src/js/modules/Form.js");
+/* harmony import */ var _modules_Accordion__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/Accordion */ "./src/js/modules/Accordion.js");
+
 
 
 
@@ -5271,7 +5273,90 @@ window.addEventListener('DOMContentLoaded', function () {
   new _modules_TextInput__WEBPACK_IMPORTED_MODULE_5__["default"]('input[name=name]').init();
   new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.join .form').init();
   new _modules_Form__WEBPACK_IMPORTED_MODULE_6__["default"]('.schedule .form', '#000').init();
+  new _modules_Accordion__WEBPACK_IMPORTED_MODULE_7__["default"]('.module .module__info-show').init();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/Accordion.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/Accordion.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Accordion; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Accordion =
+/*#__PURE__*/
+function () {
+  function Accordion(btnSelector) {
+    _classCallCheck(this, Accordion);
+
+    try {
+      this.btns = document.querySelectorAll(btnSelector);
+    } catch (e) {}
+  }
+
+  _createClass(Accordion, [{
+    key: "bindBtns",
+    value: function bindBtns() {
+      var _this = this;
+
+      if (this.btns) {
+        this.btns.forEach(function (item) {
+          item.nextElementSibling.style.display = 'none';
+          item.nextElementSibling.classList.add('animated');
+          item.addEventListener('click', function () {
+            if (item.classList.contains('active')) {
+              _this.closeItem(item);
+            } else {
+              _this.openItem(item);
+            }
+          });
+        });
+      }
+    }
+  }, {
+    key: "closeItem",
+    value: function closeItem(item) {
+      item.classList.remove('active');
+      item.nextElementSibling.classList.remove('fadeInUp');
+      item.nextElementSibling.classList.add('fadeOut');
+      setTimeout(function () {
+        item.nextElementSibling.style.display = 'none';
+      }, 400);
+    }
+  }, {
+    key: "openItem",
+    value: function openItem(item) {
+      item.classList.add('active');
+      item.nextElementSibling.classList.remove('fadeOut');
+      item.nextElementSibling.classList.add('fadeInUp');
+      item.nextElementSibling.style.display = 'block';
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      this.bindBtns();
+    }
+  }]);
+
+  return Accordion;
+}();
+
+
 
 /***/ }),
 
